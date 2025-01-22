@@ -129,9 +129,11 @@ export default function ReportPage() {
       const result = await model.generateContent([prompt, ...imageParts]);
       const response = await result.response;
       const text = response.text();
+
+      const cleanedText = text.replace(/```json\s*|\s*```/g, '').trim();
       
       try {
-        const parsedResult = JSON.parse(text);
+        const parsedResult = JSON.parse(cleanedText);
         if (parsedResult.wasteType && parsedResult.quantity && parsedResult.confidence) {
           setVerificationResult(parsedResult);
           setVerificationStatus('success');
@@ -160,7 +162,7 @@ export default function ReportPage() {
       toast.error('Please verify the waste before submitting or log in.');
       return;
     }
-    
+  
     setIsSubmitting(true);
     try {
       const report = await createReport(
@@ -171,23 +173,26 @@ export default function ReportPage() {
         preview || undefined,
         verificationResult ? JSON.stringify(verificationResult) : undefined
       ) as any;
-      
+  
+      if (!report || !report.id || !report.location || !report.wasteType) {
+        throw new Error('Invalid report data returned from API.');
+      }
+  
       const formattedReport = {
         id: report.id,
         location: report.location,
         wasteType: report.wasteType,
         amount: report.amount,
-        createdAt: report.createdAt.toISOString().split('T')[0]
+        createdAt: report.createdAt.toISOString().split('T')[0],
       };
-      
-      setReports([formattedReport, ...reports]);
+  
+      // Safeguard: Ensure `reports` is always an array before updating
+      setReports(prevReports => Array.isArray(prevReports) ? [formattedReport, ...prevReports] : [formattedReport]);
       setNewReport({ location: '', type: '', amount: '' });
       setFile(null);
       setPreview(null);
       setVerificationStatus('idle');
       setVerificationResult(null);
-      
-
       toast.success(`Report submitted successfully! You've earned points for reporting waste.`);
     } catch (error) {
       console.error('Error submitting report:', error);
@@ -196,7 +201,7 @@ export default function ReportPage() {
       setIsSubmitting(false);
     }
   };
-
+  
   useEffect(() => {
     const checkUser = async () => {
       const email = localStorage.getItem('userEmail');
