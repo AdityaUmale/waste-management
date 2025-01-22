@@ -35,11 +35,11 @@ export default function Home() {
       <section className="text-center mb-20">
         <AnimatedGlobe />
       <h1 className="text-6xl font-bold mb-6 text-gray-800 tracking-tight">
-        Zero-to-Hero <span className="text-green-600">Waste Management</span>
+        Kyu Nhi Ho Rhi <span className="text-green-600">Safai?</span>
 
       </h1>
       <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed mb-8">
-        Join our community in making waste management more efficient and rewarding
+        campaigns chalao khi se safai hogi yhi se! 
       </p>
       <Button className="bg-green-600 hover:bg-green-700 text-white text-lg py-6 px-10">
         Report Waste

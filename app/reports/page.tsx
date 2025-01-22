@@ -227,7 +227,7 @@ export default function ReportPage() {
 
   return (
     <div className="p-8 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-semibold mb-6 text-gray-800">Report waste</h1>
+      <h1 className="text-3xl font-semibold mb-6 text-gray-800">Report Waste</h1>
       
       <form onSubmit={handleSubmit} className="bg-white p-8 rounded-2xl shadow-lg mb-12">
         <div className="mb-8">

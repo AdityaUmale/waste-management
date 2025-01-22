@@ -21,17 +21,18 @@ export const Reports = pgTable('reports', {
     collectorId: integer('collector_id').references(() => Users.id),
 })
 
-export const Rewards = pgTable('rewards', {
-    id: serial('id').primaryKey(),
-    userId: integer('user_id').references(() => Users.id).notNull(),
-    points: integer('points').notNull().default(0),
-    createdAt: timestamp('created_at').defaultNow().notNull(),
-    updatedAt: timestamp('updated_at').defaultNow().notNull(),
-    isAvailable: boolean('is_available').notNull().default(true),
-    description: text('description'),
-    name: varchar('name', {length: 255}).notNull(),
-    collectionInfo: text('collection_info').notNull(), 
-})
+export const Rewards = pgTable("rewards", {
+    id: serial("id").primaryKey(),
+    userId: integer("user_id").references(() => Users.id).notNull(),
+    points: integer("points").notNull().default(0),
+    level: integer("level").notNull().default(1),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+    isAvailable: boolean("is_available").notNull().default(true),
+    description: text("description"),
+    name: varchar("name", { length: 255 }).notNull(),
+    collectionInfo: text("collection_info").notNull(),
+  });
 
 export const CollectedWastes = pgTable('collected_waste', {
     id: serial().primaryKey(),
